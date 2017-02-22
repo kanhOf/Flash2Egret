@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "declaration": true,
+        "out": "build/Flash2Egret.js",
+        "target": "ES5"
+    },
+    "exclude": [
+        "node_modules",
+        "build",
+        "demo",
+        "docRes",
+        "libs",
+        "out"
+    ]
+}

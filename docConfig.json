@@ -1,0 +1,11 @@
+{
+    "name": "Flash2LayaAir API文档",
+    "description": "国产优秀引擎",
+    "version": "1.0.6",
+    "url": "http://api.annie2x.com",
+    "options": {
+        "linkNatives": "true",
+        "outdir": "./out",
+        "paths": "./libs"
+    }
+}
