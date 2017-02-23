@@ -140,10 +140,11 @@ namespace annie {
                                             itemObj = document.createElement("img");
                                             itemObj.onload = function () {
                                                 if (isBlob) {
-                                                    URL.revokeObjectURL(item.src);
+                                                    URL.revokeObjectURL(itemObj.src);
                                                 }
                                                 itemObj.onload = null;
                                             };
+                                            itemObj.src = URL.createObjectURL(result);
                                             item=itemObj;
                                         } else {
                                             if (s.responseType == "sound") {
@@ -154,19 +155,6 @@ namespace annie {
                                                 item=new Video(itemObj);
                                             }
                                             itemObj.preload = true;
-                                            itemObj.load();
-                                            itemObj.onloadeddata = function () {
-                                                if (isBlob) {
-                                                    //执行下面的代码android有问题，会闪退
-                                                    //URL.revokeObjectURL(item.src);
-                                                }
-                                                itemObj.onloadeddata = null;
-                                            };
-                                        }
-                                        try {
-                                            itemObj.src = URL.createObjectURL(result);
-                                        } catch (err) {
-                                            isBlob = false;
                                             itemObj.src = s.url;
                                         }
                                         break;
