@@ -857,7 +857,7 @@ declare namespace Flash2x {
      * @param {string} sceneName
      * @param {WebGLRenderingContext} gl 如果是webgl渲染模式，请设置渲染的webgl对象，以方便删除不再需要使用的texture对象
      */
-    function unLoadScene(sceneName: string, gl?: WebGLRenderingContext): void;
+    function unLoadScene(sceneName: string): void;
     /**
      * 获取已经加载场景中的声音或视频资源
      * @method getMediaByName
@@ -953,6 +953,12 @@ declare namespace Flash2x {
      */
     function jsonp(url: string, type: number, callbackName: string, callbackFun: any): void;
     function m(masked: Sprite, mask: Sprite): void;
+    /**
+     * 版本号
+     * @property version
+     * @type {string}
+     */
+    let version: string;
 }
 /**
  * 全局事件侦听
@@ -960,5 +966,6 @@ declare namespace Flash2x {
  * @type {egret.EventDispatcher}
  */
 declare let globalDispatcher: egret.EventDispatcher;
+declare var devicePixelRatio: number;
 import F2xContainer = egret.DisplayObjectContainer;
 import F2xMovieClip = annie.MovieClip;

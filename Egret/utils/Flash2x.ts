@@ -275,15 +275,7 @@ namespace Flash2x {
      * @param {string} sceneName
      * @param {WebGLRenderingContext} gl 如果是webgl渲染模式，请设置渲染的webgl对象，以方便删除不再需要使用的texture对象
      */
-    export function unLoadScene(sceneName: string, gl: WebGLRenderingContext = null): void {
-        //删除webgl贴图资源
-        if (gl) {
-            for (let item in res[sceneName]) {
-                if (res[sceneName][item].nodeName && res[sceneName][item].nodeName == "IMG" && res[sceneName][item].texture) {
-                    gl.deleteTexture(res[sceneName][item].texture);
-                }
-            }
-        }
+    export function unLoadScene(sceneName: string): void {
         delete res[sceneName];
         let scene: any = eval(sceneName);
         for (let i in scene) {
@@ -615,6 +607,13 @@ namespace Flash2x {
     export function m(masked:Sprite,mask:Sprite):void{
         masked.mask=mask;
     }
+
+    /**
+     * 版本号
+     * @property version
+     * @type {string}
+     */
+    export let version="1.0.0";
 }
 /**
  * 全局事件侦听
@@ -622,5 +621,6 @@ namespace Flash2x {
  * @type {egret.EventDispatcher}
  */
 let globalDispatcher:egret.EventDispatcher=new egret.EventDispatcher();
+var devicePixelRatio=window.devicePixelRatio||1;
 import F2xContainer=egret.DisplayObjectContainer;
 import F2xMovieClip=annie.MovieClip;
