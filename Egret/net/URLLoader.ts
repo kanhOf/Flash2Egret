@@ -135,13 +135,10 @@ namespace annie {
                                     case "sound":
                                     case "video":
                                         let itemObj:any;
-                                        let isBlob: boolean = true;
                                         if (s.responseType == "image") {
                                             itemObj = document.createElement("img");
                                             itemObj.onload = function () {
-                                                if (isBlob) {
-                                                    URL.revokeObjectURL(itemObj.src);
-                                                }
+                                                URL.revokeObjectURL(itemObj.src);
                                                 itemObj.onload = null;
                                             };
                                             itemObj.src = URL.createObjectURL(result);
