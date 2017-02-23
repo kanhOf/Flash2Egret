@@ -1959,68 +1959,54 @@ var annie;
                             try {
                                 var result = t["response"];
                                 e.data = { type: s.responseType, response: null };
-                                var item_1;
+                                var item = void 0;
                                 switch (s.responseType) {
                                     case "css":
-                                        item_1 = document.createElement("link");
-                                        item_1.rel = "stylesheet";
-                                        item_1.href = s.url;
+                                        item = document.createElement("link");
+                                        item.rel = "stylesheet";
+                                        item.href = s.url;
                                         break;
                                     case "image":
                                     case "sound":
                                     case "video":
                                         var itemObj_1;
-                                        var isBlob_1 = true;
                                         if (s.responseType == "image") {
                                             itemObj_1 = document.createElement("img");
                                             itemObj_1.onload = function () {
-                                                if (isBlob_1) {
-                                                    URL.revokeObjectURL(item_1.src);
-                                                }
+                                                URL.revokeObjectURL(itemObj_1.src);
                                                 itemObj_1.onload = null;
                                             };
-                                            item_1 = itemObj_1;
+                                            itemObj_1.src = URL.createObjectURL(result);
+                                            item = itemObj_1;
                                         }
                                         else {
                                             if (s.responseType == "sound") {
                                                 itemObj_1 = document.createElement("AUDIO");
-                                                item_1 = new annie.Sound(itemObj_1);
+                                                item = new annie.Sound(itemObj_1);
                                             }
                                             else if (s.responseType == "video") {
                                                 itemObj_1 = document.createElement("VIDEO");
-                                                item_1 = new annie.Video(itemObj_1);
+                                                item = new annie.Video(itemObj_1);
                                             }
                                             itemObj_1.preload = true;
-                                            itemObj_1.load();
-                                            itemObj_1.onloadeddata = function () {
-                                                if (isBlob_1) {
-                                                }
-                                                itemObj_1.onloadeddata = null;
-                                            };
-                                        }
-                                        try {
-                                            itemObj_1.src = URL.createObjectURL(result);
-                                        }
-                                        catch (err) {
-                                            isBlob_1 = false;
                                             itemObj_1.src = s.url;
                                         }
                                         break;
                                     case "json":
-                                        item_1 = JSON.parse(result);
+                                        item = JSON.parse(result);
                                         break;
                                     case "js":
-                                        item_1 = "JS_CODE";
+                                        item = "JS_CODE";
                                         annie.Eval(result);
                                         break;
                                     case "text":
                                     case "unKnow":
                                     case "xml":
                                     default:
-                                        item_1 = result;
+                                        item = result;
                                         break;
                                 }
-                                e.data["response"] = item_1;
+                                e.data["response"] = item;
                                 s.data = null;
                                 s.responseType = "";
                             }
