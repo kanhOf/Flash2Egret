@@ -555,6 +555,7 @@ var annie;
                 }
                 s._isUpdateFrame = true;
                 if (s._isNeedUpdateChildren) {
+                    var t = -1;
                     var layerCount = s._timeline.length;
                     var frameCount = 0;
                     var frame = null;
@@ -564,14 +565,11 @@ var annie;
                     var lastFrameChildren = [];
                     var frameEvents = [];
                     var children = s.$children;
-                    for (var i = children.length - 1; i >= 0; i--) {
-                        if (i < children.length - 1) {
+                    var cLen = children.length;
+                    for (var i = cLen - 1; i >= 0; i--) {
+                        if (i < cLen - 1) {
                             lastFrameChildren.push(children[i]);
                         }
-                        s.$doRemoveChild(i, false);
-                    }
-                    for (var i = 0; i < s.maskList.length; i++) {
-                        s.$doAddChild(s.maskList[i], i, false);
                     }
                     for (var i = 0; i < layerCount; i++) {
                         frameCount = s._timeline[i].length;
@@ -626,25 +624,33 @@ var annie;
                                         }
                                     }
                                 }
-                                var t = lastFrameChildren.indexOf(displayObject);
+                                t = lastFrameChildren.indexOf(displayObject);
                                 if (t < 0) {
                                     s.addChild(displayObject);
                                 }
                                 else {
-                                    s.$doAddChild(displayObject, j, false);
+                                    s.$doAddChild(displayObject, 10000, false);
                                     lastFrameChildren.splice(t, 1);
                                 }
                             }
-                            s.$doAddChild(s.floatView, j, false);
                         }
                     }
                     s._isNeedUpdateChildren = false;
                     //update一定要放在事件处理之前
-                    var len = lastFrameChildren.length;
+                    var len = s.maskList.length;
+                    for (var i = 0; i < len; i++) {
+                        s.$doAddChild(s.maskList[i], 10000, false);
+                        t = lastFrameChildren.indexOf(s.maskList[i]);
+                        if (t >= 0) {
+                            lastFrameChildren.splice(t, 1);
+                        }
+                    }
+                    len = lastFrameChildren.length;
                     for (var i = 0; i < len; i++) {
                         s.removeChild(lastFrameChildren[i]);
                         annie.MovieClip._onInitF2xMc(lastFrameChildren[i]);
                     }
+                    s.$doAddChild(s.floatView, 10000, false);
                     //看看是否到了第一帧，或是最后一帧,如果是准备事件
                     if ((s.currentFrame == 1 && !s.isFront) || (s.currentFrame == s.totalFrames && s.isFront)) {
                         if (s.hasEventListener("onEndFrame")) {
@@ -2719,5 +2725,5 @@ var Flash2x;
  * @type {egret.EventDispatcher}
  */
 var globalDispatcher = new egret.EventDispatcher();
-var F2xContainer = egret.Sprite;
+var F2xContainer = egret.DisplayObjectContainer;
 var F2xMovieClip = annie.MovieClip;

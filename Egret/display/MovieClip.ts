@@ -565,14 +565,11 @@ namespace annie {
                     let lastFrameChildren:any =[];
                     let frameEvents: any = [];
                     let children = s.$children;
-                    for (let i = children.length - 1; i >= 0; i--) {
-                        if(i<children.length - 1) {
+                    let cLen=children.length;
+                    for (let i = cLen-1; i >= 0; i--) {
+                        if(i<cLen - 1) {
                             lastFrameChildren.push(children[i]);
                         }
-                        s.$doRemoveChild(i,false);
-                    }
-                    for(let i=0;i<s.maskList.length;i++){
-                        s.$doAddChild(s.maskList[i],i,false);
                     }
                     for (let i = 0; i < layerCount; i++) {
                         frameCount = s._timeline[i].length;
@@ -590,7 +587,7 @@ namespace annie {
                                 }
                             }
                             frameChildrenCount = frame.frameChildList.length;
-                            for (var j = 0; j < frameChildrenCount; j++) {
+                            for (let j = 0; j < frameChildrenCount; j++) {
                                 infoObject = frame.frameChildList[j];
                                 displayObject = infoObject.display;
                                 displayObject.x = infoObject.x;
@@ -628,20 +625,28 @@ namespace annie {
                                 if (t< 0) {
                                     s.addChild(displayObject);
                                 }else{
-                                    s.$doAddChild(displayObject, j,false);
+                                    s.$doAddChild(displayObject, 10000,false);
                                     lastFrameChildren.splice(t,1);
                                 }
                             }
-                            s.$doAddChild(s.floatView, j,false);
                         }
                     }
                     s._isNeedUpdateChildren = false;
                     //update一定要放在事件处理之前
-                    let len = lastFrameChildren.length;
+                    let len=s.maskList.length;
+                    for(let i=0;i<len;i++){
+                        s.$doAddChild(s.maskList[i], 10000,false);
+                        t =lastFrameChildren.indexOf(s.maskList[i]);
+                        if(t>=0){
+                            lastFrameChildren.splice(t,1);
+                        }
+                    }
+                    len = lastFrameChildren.length;
                     for (let i = 0; i < len; i++) {
                         s.removeChild(lastFrameChildren[i]);
                         annie.MovieClip._onInitF2xMc(lastFrameChildren[i]);
                     }
+                    s.$doAddChild(s.floatView, 10000,false);
                     //看看是否到了第一帧，或是最后一帧,如果是准备事件
                     if ((s.currentFrame == 1 && !s.isFront) || (s.currentFrame == s.totalFrames && s.isFront)) {
                         if (s.hasEventListener("onEndFrame")) {

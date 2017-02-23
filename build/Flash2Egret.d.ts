@@ -960,5 +960,5 @@ declare namespace Flash2x {
  * @type {egret.EventDispatcher}
  */
 declare let globalDispatcher: egret.EventDispatcher;
-import F2xContainer = egret.Sprite;
+import F2xContainer = egret.DisplayObjectContainer;
 import F2xMovieClip = annie.MovieClip;
