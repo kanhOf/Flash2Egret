@@ -101,6 +101,8 @@ namespace annie {
          * @type {Canvas}
          */
         private _cacheImg: any = window.document.createElement("canvas");
+        private _cacheX: number = 0;
+        private _cacheY: number = 0;
         private _isBitmapStroke: Matrix;
         private _isBitmapFill: Matrix;
         public texture: Texture = new Texture();
@@ -773,6 +775,8 @@ namespace annie {
                 if (leftX != undefined) {
                     leftX -=lineWidth >> 1;
                     leftY -=lineWidth >> 1;
+                    s._cacheX=leftX;
+                    s._cacheY=leftY;
                     buttonRightX +=lineWidth >> 1;
                     buttonRightY +=lineWidth >> 1;
                     let w = buttonRightX - leftX;
@@ -819,10 +823,14 @@ namespace annie {
                 } else {
                     s._cacheImg.width = 0;
                     s._cacheImg.height = 0;
+                    s._cacheX=0;
+                    s._cacheY=0;
                 }
             } else {
                 s._cacheImg.width = 0;
                 s._cacheImg.height = 0;
+                s._cacheX=0;
+                s._cacheY=0;
             }
             s.texture.bitmapData=new BitmapData(s._cacheImg);
             s.texture.$initData(0,0,s._cacheImg.width,s._cacheImg.height,0,0,s._cacheImg.width,s._cacheImg.height,s._cacheImg.width,s._cacheImg.height);

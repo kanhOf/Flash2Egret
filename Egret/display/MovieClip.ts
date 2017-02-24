@@ -89,7 +89,6 @@ namespace annie {
          * @readonly
          */
         public currentFrame:number=1;
-
         /**
          * 当前动画是否处于播放状态
          * @property isPlaying
@@ -131,7 +130,6 @@ namespace annie {
         private _graphicInfo:any;
         private _isUpdateFrame = false;
         private  _isF2xMc:boolean=true;
-        public maskList:any=[];
         public constructor() {
             super();
             let s=this;
@@ -566,10 +564,8 @@ namespace annie {
                     let frameEvents: any = [];
                     let children = s.$children;
                     let cLen=children.length;
-                    for (let i = cLen-1; i >= 0; i--) {
-                        if(i<cLen - 1) {
-                            lastFrameChildren.push(children[i]);
-                        }
+                    for (let i = 0; i<cLen-1; i++) {
+                        lastFrameChildren.push(children[i]);
                     }
                     for (let i = 0; i < layerCount; i++) {
                         frameCount = s._timeline[i].length;
@@ -592,10 +588,6 @@ namespace annie {
                                 displayObject = infoObject.display;
                                 displayObject.x = infoObject.x;
                                 displayObject.y = infoObject.y;
-                                if(displayObject._f2xShape){
-                                    displayObject.x-=displayObject._f2xShape._cacheImg.width>>1;
-                                    displayObject.y-=displayObject._f2xShape._cacheImg.height>>1;
-                                }
                                 displayObject.scaleX = infoObject.scaleX;
                                 displayObject.scaleY = infoObject.scaleY;
                                 displayObject.rotation = infoObject.rotation;
@@ -628,20 +620,24 @@ namespace annie {
                                     s.$doAddChild(displayObject, 10000,false);
                                     lastFrameChildren.splice(t,1);
                                 }
+                                if(displayObject.$mask){
+                                    displayObject.$mask.gotoAndStop(s.currentFrame);
+                                    s.$doAddChild(displayObject.$mask, 10000,false);
+                                    t =lastFrameChildren.indexOf(displayObject.$mask);
+                                    if(t>=0){
+                                        lastFrameChildren.splice(t,1);
+                                    }
+                                }
+                                if(displayObject._f2xShape){
+                                    displayObject.x+=displayObject._f2xShape._cacheX;
+                                    displayObject.y+=displayObject._f2xShape._cacheY;
+                                }
                             }
                         }
                     }
                     s._isNeedUpdateChildren = false;
                     //update一定要放在事件处理之前
-                    let len=s.maskList.length;
-                    for(let i=0;i<len;i++){
-                        s.$doAddChild(s.maskList[i], 10000,false);
-                        t =lastFrameChildren.indexOf(s.maskList[i]);
-                        if(t>=0){
-                            lastFrameChildren.splice(t,1);
-                        }
-                    }
-                    len = lastFrameChildren.length;
+                    let len = lastFrameChildren.length;
                     for (let i = 0; i < len; i++) {
                         s.removeChild(lastFrameChildren[i]);
                         annie.MovieClip._onInitF2xMc(lastFrameChildren[i]);

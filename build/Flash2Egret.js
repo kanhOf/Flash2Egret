@@ -130,7 +130,6 @@ var annie;
             _this._isNeedUpdateChildren = true;
             _this._isUpdateFrame = false;
             _this._isF2xMc = true;
-            _this.maskList = [];
             _this._mouseEvent = function (e) {
                 if (e.type == MouseEvent.TOUCH_BEGIN) {
                     this.gotoAndStop(2);
@@ -566,10 +565,8 @@ var annie;
                     var frameEvents = [];
                     var children = s.$children;
                     var cLen = children.length;
-                    for (var i = cLen - 1; i >= 0; i--) {
-                        if (i < cLen - 1) {
-                            lastFrameChildren.push(children[i]);
-                        }
+                    for (var i = 0; i < cLen - 1; i++) {
+                        lastFrameChildren.push(children[i]);
                     }
                     for (var i = 0; i < layerCount; i++) {
                         frameCount = s._timeline[i].length;
@@ -593,10 +590,6 @@ var annie;
                                 displayObject = infoObject.display;
                                 displayObject.x = infoObject.x;
                                 displayObject.y = infoObject.y;
-                                if (displayObject._f2xShape) {
-                                    displayObject.x -= displayObject._f2xShape._cacheImg.width >> 1;
-                                    displayObject.y -= displayObject._f2xShape._cacheImg.height >> 1;
-                                }
                                 displayObject.scaleX = infoObject.scaleX;
                                 displayObject.scaleY = infoObject.scaleY;
                                 displayObject.rotation = infoObject.rotation;
@@ -632,20 +625,24 @@ var annie;
                                     s.$doAddChild(displayObject, 10000, false);
                                     lastFrameChildren.splice(t, 1);
                                 }
+                                if (displayObject.$mask) {
+                                    displayObject.$mask.gotoAndStop(s.currentFrame);
+                                    s.$doAddChild(displayObject.$mask, 10000, false);
+                                    t = lastFrameChildren.indexOf(displayObject.$mask);
+                                    if (t >= 0) {
+                                        lastFrameChildren.splice(t, 1);
+                                    }
+                                }
+                                if (displayObject._f2xShape) {
+                                    displayObject.x += displayObject._f2xShape._cacheX;
+                                    displayObject.y += displayObject._f2xShape._cacheY;
+                                }
                             }
                         }
                     }
                     s._isNeedUpdateChildren = false;
                     //update一定要放在事件处理之前
-                    var len = s.maskList.length;
-                    for (var i = 0; i < len; i++) {
-                        s.$doAddChild(s.maskList[i], 10000, false);
-                        t = lastFrameChildren.indexOf(s.maskList[i]);
-                        if (t >= 0) {
-                            lastFrameChildren.splice(t, 1);
-                        }
-                    }
-                    len = lastFrameChildren.length;
+                    var len = lastFrameChildren.length;
                     for (var i = 0; i < len; i++) {
                         s.removeChild(lastFrameChildren[i]);
                         annie.MovieClip._onInitF2xMc(lastFrameChildren[i]);
@@ -729,6 +726,8 @@ var annie;
              * @type {Canvas}
              */
             this._cacheImg = window.document.createElement("canvas");
+            this._cacheX = 0;
+            this._cacheY = 0;
             this.texture = new Texture();
             /**
              * 径向渐变填充 一般给Flash2x用
@@ -1397,6 +1396,8 @@ var annie;
                 if (leftX != undefined) {
                     leftX -= lineWidth >> 1;
                     leftY -= lineWidth >> 1;
+                    s._cacheX = leftX;
+                    s._cacheY = leftY;
                     buttonRightX += lineWidth >> 1;
                     buttonRightY += lineWidth >> 1;
                     var w = buttonRightX - leftX;
@@ -1448,11 +1449,15 @@ var annie;
                 else {
                     s._cacheImg.width = 0;
                     s._cacheImg.height = 0;
+                    s._cacheX = 0;
+                    s._cacheY = 0;
                 }
             }
             else {
                 s._cacheImg.width = 0;
                 s._cacheImg.height = 0;
+                s._cacheX = 0;
+                s._cacheY = 0;
             }
             s.texture.bitmapData = new BitmapData(s._cacheImg);
             s.texture.$initData(0, 0, s._cacheImg.width, s._cacheImg.height, 0, 0, s._cacheImg.width, s._cacheImg.height, s._cacheImg.width, s._cacheImg.height);
@@ -2484,8 +2489,8 @@ var Flash2x;
                 display.visible = baseInfo.v;
             }
             if (display._f2xShape) {
-                display.x -= display._f2xShape._cacheImg.width >> 1;
-                display.y -= display._f2xShape._cacheImg.height >> 1;
+                display.x += display._f2xShape._cacheX;
+                display.y += display._f2xShape._cacheY;
             }
         }
         if (extendInfo && extendInfo.length > 0) {

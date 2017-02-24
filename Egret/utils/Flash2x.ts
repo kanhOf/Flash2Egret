@@ -384,8 +384,8 @@ namespace Flash2x {
                 display.visible = baseInfo.v;
             }
             if(display._f2xShape){
-                display.x-=display._f2xShape._cacheImg.width>>1;
-                display.y-=display._f2xShape._cacheImg.height>>1;
+                display.x+=display._f2xShape._cacheX;
+                display.y+=display._f2xShape._cacheY;
             }
         }
         if (extendInfo && extendInfo.length > 0) {

@@ -83,7 +83,6 @@ declare namespace annie {
         private _graphicInfo;
         private _isUpdateFrame;
         private _isF2xMc;
-        maskList: any;
         constructor();
         /**
          * 调用止方法将停止当前帧
@@ -343,6 +342,8 @@ declare namespace annie {
          * @type {Canvas}
          */
         private _cacheImg;
+        private _cacheX;
+        private _cacheY;
         private _isBitmapStroke;
         private _isBitmapFill;
         texture: Texture;
