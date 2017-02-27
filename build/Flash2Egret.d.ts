@@ -962,6 +962,18 @@ declare namespace Flash2x {
     let version: string;
 }
 /**
+ * 往控制台打印调试信息
+ * @method trace
+ * @param {Object} arg 任何个数,任意类型的参数
+ * @since 1.0.0
+ * @public
+ * @static
+ * @example
+ *      trace(1);
+ *      trace(1,"hello");
+ */
+declare let trace: (...arg: any[]) => void;
+/**
  * 全局事件侦听
  * @property globalDispatcher
  * @type {egret.EventDispatcher}
