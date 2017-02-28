@@ -1914,126 +1914,120 @@ var annie;
                     s.responseType = "unKnow";
                 }
             }
-            var req = null;
-            if (!s._req) {
-                s._req = new XMLHttpRequest();
-                req = s._req;
-                req.withCredentials = false;
-                req.onprogress = function (event) {
-                    if (!event || event.loaded > 0 && event.total == 0) {
-                        return; // Sometimes we get no "total", so just ignore the progress event.
-                    }
-                    var ep = new Event("onProgress");
-                    ep.data = { loadedBytes: event.loaded, totalBytes: event.total };
-                    s.dispatchEvent(ep);
-                };
-                req.onerror = function (event) {
-                    reSendTimes++;
-                    if (reSendTimes > 3) {
-                        var event = new Event("onError");
-                        event.data = { id: 2, msg: event["message"] };
-                        s.dispatchEvent(event);
+            var req = new XMLHttpRequest();
+            req = s._req;
+            req.withCredentials = false;
+            req.onprogress = function (event) {
+                if (!event || event.loaded > 0 && event.total == 0) {
+                    return; // Sometimes we get no "total", so just ignore the progress event.
+                }
+                var ep = new Event("onProgress");
+                ep.data = { loadedBytes: event.loaded, totalBytes: event.total };
+                s.dispatchEvent(ep);
+            };
+            req.onerror = function (event) {
+                reSendTimes++;
+                if (reSendTimes > 3) {
+                    var event = new Event("onError");
+                    event.data = { id: 2, msg: event["message"] };
+                    s.dispatchEvent(event);
+                }
+                else {
+                    //断线重连
+                    req.abort();
+                    if (!s.data) {
+                        req.send();
                     }
                     else {
-                        //断线重连
-                        req.abort();
-                        if (!s.data) {
-                            req.send();
+                        if (contentType == "form") {
+                            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+                            req.send(s._fqs(s.data, null));
                         }
                         else {
-                            if (contentType == "form") {
-                                req.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
-                                req.send(s._fqs(s.data, null));
+                            var type = "application/json";
+                            if (contentType != "json") {
+                                type = "multipart/form-data";
                             }
-                            else {
-                                var type = "application/json";
-                                if (contentType != "json") {
-                                    type = "multipart/form-data";
-                                }
-                                req.setRequestHeader("Content-type", type + ";charset=UTF-8");
-                                req.send(s.data);
-                            }
+                            req.setRequestHeader("Content-type", type + ";charset=UTF-8");
+                            req.send(s.data);
                         }
                     }
-                };
-                req.onreadystatechange = function (event) {
-                    var t = event.target;
-                    if (t["readyState"] == 4) {
-                        if (req.status == 200) {
-                            var e = new Event(Event.COMPLETE);
-                            try {
-                                var result = t["response"];
-                                e.data = { type: s.responseType, response: null };
-                                var item = void 0;
-                                switch (s.responseType) {
-                                    case "css":
-                                        item = document.createElement("link");
-                                        item.rel = "stylesheet";
-                                        item.href = s.url;
-                                        break;
-                                    case "image":
-                                    case "sound":
-                                    case "video":
-                                        var itemObj_1;
-                                        if (s.responseType == "image") {
-                                            itemObj_1 = document.createElement("img");
-                                            itemObj_1.onload = function () {
-                                                URL.revokeObjectURL(itemObj_1.src);
-                                                itemObj_1.onload = null;
-                                            };
-                                            itemObj_1.src = URL.createObjectURL(result);
-                                            item = itemObj_1;
+                }
+            };
+            req.onreadystatechange = function (event) {
+                var t = event.target;
+                if (t["readyState"] == 4) {
+                    if (req.status == 200) {
+                        var e = new Event(Event.COMPLETE);
+                        try {
+                            var result = t["response"];
+                            e.data = { type: s.responseType, response: null };
+                            var item = void 0;
+                            switch (s.responseType) {
+                                case "css":
+                                    item = document.createElement("link");
+                                    item.rel = "stylesheet";
+                                    item.href = s.url;
+                                    break;
+                                case "image":
+                                case "sound":
+                                case "video":
+                                    var itemObj_1;
+                                    if (s.responseType == "image") {
+                                        itemObj_1 = document.createElement("img");
+                                        itemObj_1.onload = function () {
+                                            URL.revokeObjectURL(itemObj_1.src);
+                                            itemObj_1.onload = null;
+                                        };
+                                        itemObj_1.src = URL.createObjectURL(result);
+                                        item = itemObj_1;
+                                    }
+                                    else {
+                                        if (s.responseType == "sound") {
+                                            itemObj_1 = document.createElement("AUDIO");
+                                            item = new annie.Sound(itemObj_1);
                                         }
-                                        else {
-                                            if (s.responseType == "sound") {
-                                                itemObj_1 = document.createElement("AUDIO");
-                                                item = new annie.Sound(itemObj_1);
-                                            }
-                                            else if (s.responseType == "video") {
-                                                itemObj_1 = document.createElement("VIDEO");
-                                                item = new annie.Video(itemObj_1);
-                                            }
-                                            itemObj_1.preload = true;
-                                            itemObj_1.src = s.url;
+                                        else if (s.responseType == "video") {
+                                            itemObj_1 = document.createElement("VIDEO");
+                                            item = new annie.Video(itemObj_1);
                                         }
-                                        break;
-                                    case "json":
-                                        item = JSON.parse(result);
-                                        break;
-                                    case "js":
-                                        item = "JS_CODE";
-                                        annie.Eval(result);
-                                        break;
-                                    case "text":
-                                    case "unKnow":
-                                    case "xml":
-                                    default:
-                                        item = result;
-                                        break;
-                                }
-                                e.data["response"] = item;
-                                s.data = null;
-                                s.responseType = "";
+                                        itemObj_1.preload = true;
+                                        itemObj_1.src = s.url;
+                                    }
+                                    break;
+                                case "json":
+                                    item = JSON.parse(result);
+                                    break;
+                                case "js":
+                                    item = "JS_CODE";
+                                    annie.Eval(result);
+                                    break;
+                                case "text":
+                                case "unKnow":
+                                case "xml":
+                                default:
+                                    item = result;
+                                    break;
                             }
-                            catch (e) {
-                                var errorEvent = new Event("onError");
-                                errorEvent.data = { id: 0, msg: "服务器返回信息有误" };
-                                s.dispatchEvent(errorEvent);
-                            }
-                            s.dispatchEvent(e);
+                            e.data["response"] = item;
+                            s.data = null;
+                            s.responseType = "";
                         }
-                        else {
-                            //服务器返回报错
+                        catch (e) {
                             var errorEvent = new Event("onError");
-                            errorEvent.data = { id: 0, msg: "访问地址不存在" };
+                            errorEvent.data = { id: 0, msg: "服务器返回信息有误" };
                             s.dispatchEvent(errorEvent);
                         }
+                        s.dispatchEvent(e);
                     }
-                };
-            }
-            else {
-                req = s._req;
-            }
+                    else {
+                        //服务器返回报错
+                        var errorEvent = new Event("onError");
+                        errorEvent.data = { id: 0, msg: "访问地址不存在" };
+                        s.dispatchEvent(errorEvent);
+                    }
+                }
+            };
             var reSendTimes = 0;
             if (s.data && s.method.toLocaleLowerCase() == "get") {
                 s.url = s._fus(url, s.data);
@@ -2075,6 +2069,7 @@ var annie;
             /*req.onloadstart = function (e) {
              s.event("onStart");
              };*/
+            s._req = req;
         };
         /**
          * 添加自定义头
