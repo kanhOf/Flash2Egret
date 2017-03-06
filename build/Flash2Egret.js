@@ -60,7 +60,7 @@ var annie;
     var MovieClip = (function (_super) {
         __extends(MovieClip, _super);
         function MovieClip() {
-            var _this = _super.call(this) || this;
+            _super.call(this);
             /**
              * 时间轴 一般给Flash2x工具使用
              * @property _timeline
@@ -68,7 +68,7 @@ var annie;
              * @since 1.0.0
              * @type {Array}
              */
-            _this._timeline = [];
+            this._timeline = [];
             /**
              * 有些时候我们需要在一个时间轴动画类中添加子元素
              * 在默认情况下，MovieClip只有在停止播放的情况下
@@ -82,7 +82,7 @@ var annie;
              * @property floatView
              * @type {annie.Sprite}
              */
-            _this.floatView = new DisplayObjectContainer();
+            this.floatView = new DisplayObjectContainer();
             /**
              * mc的当前帧
              * @property currentFrame
@@ -92,7 +92,7 @@ var annie;
              * @default 1
              * @readonly
              */
-            _this.currentFrame = 1;
+            this.currentFrame = 1;
             /**
              * 当前动画是否处于播放状态
              * @property isPlaying
@@ -103,7 +103,7 @@ var annie;
              * @default true
              * @readonly
              */
-            _this.isPlaying = true;
+            this.isPlaying = true;
             /**
              * 动画的播放方向,是顺着播还是在倒着播
              * @property isFront
@@ -113,7 +113,7 @@ var annie;
              * @default true
              * @readonly
              */
-            _this.isFront = true;
+            this.isFront = true;
             /**
              * 当前动画的总帧数
              * @property totalFrames
@@ -123,14 +123,14 @@ var annie;
              * @default 1
              * @readonly
              */
-            _this.totalFrames = 1;
-            _this._scriptLayer = [];
-            _this._labelFrame = {};
-            _this._frameLabel = {};
-            _this._isNeedUpdateChildren = true;
-            _this._isUpdateFrame = false;
-            _this._isF2xMc = true;
-            _this._mouseEvent = function (e) {
+            this.totalFrames = 1;
+            this._scriptLayer = [];
+            this._labelFrame = {};
+            this._frameLabel = {};
+            this._isNeedUpdateChildren = true;
+            this._isUpdateFrame = false;
+            this._isF2xMc = true;
+            this._mouseEvent = function (e) {
                 if (e.type == MouseEvent.TOUCH_BEGIN) {
                     this.gotoAndStop(2);
                 }
@@ -138,9 +138,8 @@ var annie;
                     this.gotoAndStop(1);
                 }
             };
-            var s = _this;
+            var s = this;
             s.addChild(s.floatView);
-            return _this;
         }
         /**
          * 调用止方法将停止当前帧
@@ -1492,75 +1491,75 @@ var annie;
             }
             s.updateTexture();
         };
+        Shape._canvas = document.createElement("canvas");
+        Shape.BASE_64 = {
+            "A": 0,
+            "B": 1,
+            "C": 2,
+            "D": 3,
+            "E": 4,
+            "F": 5,
+            "G": 6,
+            "H": 7,
+            "I": 8,
+            "J": 9,
+            "K": 10,
+            "L": 11,
+            "M": 12,
+            "N": 13,
+            "O": 14,
+            "P": 15,
+            "Q": 16,
+            "R": 17,
+            "S": 18,
+            "T": 19,
+            "U": 20,
+            "V": 21,
+            "W": 22,
+            "X": 23,
+            "Y": 24,
+            "Z": 25,
+            "a": 26,
+            "b": 27,
+            "c": 28,
+            "d": 29,
+            "e": 30,
+            "f": 31,
+            "g": 32,
+            "h": 33,
+            "i": 34,
+            "j": 35,
+            "k": 36,
+            "l": 37,
+            "m": 38,
+            "n": 39,
+            "o": 40,
+            "p": 41,
+            "q": 42,
+            "r": 43,
+            "s": 44,
+            "t": 45,
+            "u": 46,
+            "v": 47,
+            "w": 48,
+            "x": 49,
+            "y": 50,
+            "z": 51,
+            "0": 52,
+            "1": 53,
+            "2": 54,
+            "3": 55,
+            "4": 56,
+            "5": 57,
+            "6": 58,
+            "7": 59,
+            "8": 60,
+            "9": 61,
+            "+": 62,
+            "/": 63
+        };
         return Shape;
     }());
-    Shape._canvas = document.createElement("canvas");
-    Shape.BASE_64 = {
-        "A": 0,
-        "B": 1,
-        "C": 2,
-        "D": 3,
-        "E": 4,
-        "F": 5,
-        "G": 6,
-        "H": 7,
-        "I": 8,
-        "J": 9,
-        "K": 10,
-        "L": 11,
-        "M": 12,
-        "N": 13,
-        "O": 14,
-        "P": 15,
-        "Q": 16,
-        "R": 17,
-        "S": 18,
-        "T": 19,
-        "U": 20,
-        "V": 21,
-        "W": 22,
-        "X": 23,
-        "Y": 24,
-        "Z": 25,
-        "a": 26,
-        "b": 27,
-        "c": 28,
-        "d": 29,
-        "e": 30,
-        "f": 31,
-        "g": 32,
-        "h": 33,
-        "i": 34,
-        "j": 35,
-        "k": 36,
-        "l": 37,
-        "m": 38,
-        "n": 39,
-        "o": 40,
-        "p": 41,
-        "q": 42,
-        "r": 43,
-        "s": 44,
-        "t": 45,
-        "u": 46,
-        "v": 47,
-        "w": 48,
-        "x": 49,
-        "y": 50,
-        "z": 51,
-        "0": 52,
-        "1": 53,
-        "2": 54,
-        "3": 55,
-        "4": 56,
-        "5": 57,
-        "6": 58,
-        "7": 59,
-        "8": 60,
-        "9": 61,
-        "+": 62,
-        "/": 63
-    };
     annie.Shape = Shape;
 })(annie || (annie = {}));
 /**
@@ -1586,7 +1585,7 @@ var annie;
          * @since 1.0.0
          */
         function Media(src, type) {
-            var _this = _super.call(this) || this;
+            _super.call(this);
             /**
              * html 标签 有可能是audio 或者 video
              * @property media
@@ -1594,16 +1593,16 @@ var annie;
              * @public
              * @since 1.0.0
              */
-            _this.media = null;
+            this.media = null;
             /**
              * 媒体类型 VIDEO 或者 AUDIO
              * @type {string}
              * @since 1.0.0
              * @since 1.0.0
              */
-            _this.type = "";
-            _this._loop = 0;
-            var s = _this;
+            this.type = "";
+            this._loop = 0;
+            var s = this;
             if (typeof (src) == "string") {
                 s.media = document.createElement(type);
                 s.media.src = src;
@@ -1628,7 +1627,6 @@ var annie;
                 e.data = { currentTime: s.media.currentTime };
                 s.dispatchEvent(e);
             }, false);
-            return _this;
         }
         /**
          * 开始播放媒体
@@ -1706,7 +1704,7 @@ var annie;
     var Sound = (function (_super) {
         __extends(Sound, _super);
         function Sound(src) {
-            return _super.call(this, src, "Audio") || this;
+            _super.call(this, src, "Audio");
         }
         return Sound;
     }(annie.Media));
@@ -1729,8 +1727,8 @@ var annie;
         function Video(src, width, height) {
             if (width === void 0) { width = 0; }
             if (height === void 0) { height = 0; }
-            var _this = _super.call(this, src, "Video") || this;
-            var s = _this;
+            _super.call(this, src, "Video");
+            var s = this;
             s.media.setAttribute("playsinline", "true");
             s.media.setAttribute("webkit-playsinline", "true");
             s.media.setAttribute("x-webkit-airplay", "true");
@@ -1742,7 +1740,6 @@ var annie;
                 s.media.width = width;
                 s.media.height = height;
             }
-            return _this;
         }
         return Video;
     }(annie.Media));
@@ -1769,8 +1766,8 @@ var annie;
          * @param type text json js xml image sound css svg video unKnow
          */
         function URLLoader() {
-            var _this = _super.call(this) || this;
-            _this.headers = [];
+            _super.call(this);
+            this.headers = [];
             /**
              * 后台返回来的数据类弄
              * @property responseType
@@ -1779,7 +1776,7 @@ var annie;
              * @public
              * @since 1.0.0
              */
-            _this.responseType = null;
+            this.responseType = null;
             /**
              * 请求的url地址
              * @property url
@@ -1787,7 +1784,7 @@ var annie;
              * @since 1.0.0
              * @type {string}
              */
-            _this.url = "";
+            this.url = "";
             /**
              * 请求后台的类型 get post
              * @property method
@@ -1796,7 +1793,7 @@ var annie;
              * @public
              * @since 1.0.0
              */
-            _this.method = "get";
+            this.method = "get";
             /**
              * 需要像后台传送的数据对象
              * @property data
@@ -1805,7 +1802,7 @@ var annie;
              * @default null
              * @type {Object}
              */
-            _this.data = null;
+            this.data = null;
             /**
              * 格式化post请求参数
              * @method _fqs
@@ -1815,7 +1812,7 @@ var annie;
              * @private
              * @since 1.0.0
              */
-            _this._fqs = function (data, query) {
+            this._fqs = function (data, query) {
                 var params = [];
                 if (data) {
                     for (var n in data) {
@@ -1836,7 +1833,7 @@ var annie;
              * @return {any}
              * @private
              */
-            _this._fus = function (src, data) {
+            this._fus = function (src, data) {
                 var s = this;
                 if (data == null || data == "") {
                     return src;
@@ -1852,7 +1849,6 @@ var annie;
                     return src + "?" + s._fqs(data, query);
                 }
             };
-            return _this;
         }
         /**
          * 取消加载
@@ -2717,7 +2713,7 @@ var Flash2x;
 var trace = function () {
     var arg = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        arg[_i] = arguments[_i];
+        arg[_i - 0] = arguments[_i];
     }
     for (var i in arguments) {
         console.log(arguments[i]);
