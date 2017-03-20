@@ -78,7 +78,6 @@ namespace annie {
                 }
             }
             let req = new XMLHttpRequest();
-                req = s._req;
                 req.withCredentials = false;
                 req.onprogress = function (event: any): void {
                     if (!event || event.loaded > 0 && event.total == 0) {
