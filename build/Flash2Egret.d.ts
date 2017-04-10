@@ -982,3 +982,4 @@ declare let globalDispatcher: egret.EventDispatcher;
 declare var devicePixelRatio: number;
 import F2xContainer = egret.DisplayObjectContainer;
 import F2xMovieClip = annie.MovieClip;
+import F2xText = egret.TextField;

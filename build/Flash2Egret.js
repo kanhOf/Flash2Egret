@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 /**
  * @module annie
  */
@@ -60,7 +65,7 @@ var annie;
     var MovieClip = (function (_super) {
         __extends(MovieClip, _super);
         function MovieClip() {
-            _super.call(this);
+            var _this = _super.call(this) || this;
             /**
              * 时间轴 一般给Flash2x工具使用
              * @property _timeline
@@ -68,7 +73,7 @@ var annie;
              * @since 1.0.0
              * @type {Array}
              */
-            this._timeline = [];
+            _this._timeline = [];
             /**
              * 有些时候我们需要在一个时间轴动画类中添加子元素
              * 在默认情况下，MovieClip只有在停止播放的情况下
@@ -82,7 +87,7 @@ var annie;
              * @property floatView
              * @type {annie.Sprite}
              */
-            this.floatView = new DisplayObjectContainer();
+            _this.floatView = new DisplayObjectContainer();
             /**
              * mc的当前帧
              * @property currentFrame
@@ -92,7 +97,7 @@ var annie;
              * @default 1
              * @readonly
              */
-            this.currentFrame = 1;
+            _this.currentFrame = 1;
             /**
              * 当前动画是否处于播放状态
              * @property isPlaying
@@ -103,7 +108,7 @@ var annie;
              * @default true
              * @readonly
              */
-            this.isPlaying = true;
+            _this.isPlaying = true;
             /**
              * 动画的播放方向,是顺着播还是在倒着播
              * @property isFront
@@ -113,7 +118,7 @@ var annie;
              * @default true
              * @readonly
              */
-            this.isFront = true;
+            _this.isFront = true;
             /**
              * 当前动画的总帧数
              * @property totalFrames
@@ -123,14 +128,14 @@ var annie;
              * @default 1
              * @readonly
              */
-            this.totalFrames = 1;
-            this._scriptLayer = [];
-            this._labelFrame = {};
-            this._frameLabel = {};
-            this._isNeedUpdateChildren = true;
-            this._isUpdateFrame = false;
-            this._isF2xMc = true;
-            this._mouseEvent = function (e) {
+            _this.totalFrames = 1;
+            _this._scriptLayer = [];
+            _this._labelFrame = {};
+            _this._frameLabel = {};
+            _this._isNeedUpdateChildren = true;
+            _this._isUpdateFrame = false;
+            _this._isF2xMc = true;
+            _this._mouseEvent = function (e) {
                 var s = this;
                 var frame = 2;
                 if (e.type == MouseEvent.TOUCH_BEGIN) {
@@ -143,8 +148,9 @@ var annie;
                 }
                 s.gotoAndStop(frame);
             };
-            var s = this;
+            var s = _this;
             s.addChild(s.floatView);
+            return _this;
         }
         /**
          * 调用止方法将停止当前帧
@@ -1261,6 +1267,7 @@ var annie;
             c.push([1, "fill", []]);
             if (m) {
                 s._isBitmapFill = null;
+                //c.push([1, "restore", []]);
             }
         };
         /**
@@ -1281,6 +1288,7 @@ var annie;
             c.push([1, "stroke", []]);
             if (m) {
                 s._isBitmapStroke = null;
+                // c.push([1, "restore", []]);
             }
         };
         /**
@@ -1449,6 +1457,7 @@ var annie;
                             ctx[data_1[1]] = data_1[2];
                         }
                     }
+                    //
                 }
                 else {
                     s._cacheImg.width = 0;
@@ -1496,75 +1505,75 @@ var annie;
             }
             s.updateTexture();
         };
-        Shape._canvas = document.createElement("canvas");
-        Shape.BASE_64 = {
-            "A": 0,
-            "B": 1,
-            "C": 2,
-            "D": 3,
-            "E": 4,
-            "F": 5,
-            "G": 6,
-            "H": 7,
-            "I": 8,
-            "J": 9,
-            "K": 10,
-            "L": 11,
-            "M": 12,
-            "N": 13,
-            "O": 14,
-            "P": 15,
-            "Q": 16,
-            "R": 17,
-            "S": 18,
-            "T": 19,
-            "U": 20,
-            "V": 21,
-            "W": 22,
-            "X": 23,
-            "Y": 24,
-            "Z": 25,
-            "a": 26,
-            "b": 27,
-            "c": 28,
-            "d": 29,
-            "e": 30,
-            "f": 31,
-            "g": 32,
-            "h": 33,
-            "i": 34,
-            "j": 35,
-            "k": 36,
-            "l": 37,
-            "m": 38,
-            "n": 39,
-            "o": 40,
-            "p": 41,
-            "q": 42,
-            "r": 43,
-            "s": 44,
-            "t": 45,
-            "u": 46,
-            "v": 47,
-            "w": 48,
-            "x": 49,
-            "y": 50,
-            "z": 51,
-            "0": 52,
-            "1": 53,
-            "2": 54,
-            "3": 55,
-            "4": 56,
-            "5": 57,
-            "6": 58,
-            "7": 59,
-            "8": 60,
-            "9": 61,
-            "+": 62,
-            "/": 63
-        };
         return Shape;
     }());
+    Shape._canvas = document.createElement("canvas");
+    Shape.BASE_64 = {
+        "A": 0,
+        "B": 1,
+        "C": 2,
+        "D": 3,
+        "E": 4,
+        "F": 5,
+        "G": 6,
+        "H": 7,
+        "I": 8,
+        "J": 9,
+        "K": 10,
+        "L": 11,
+        "M": 12,
+        "N": 13,
+        "O": 14,
+        "P": 15,
+        "Q": 16,
+        "R": 17,
+        "S": 18,
+        "T": 19,
+        "U": 20,
+        "V": 21,
+        "W": 22,
+        "X": 23,
+        "Y": 24,
+        "Z": 25,
+        "a": 26,
+        "b": 27,
+        "c": 28,
+        "d": 29,
+        "e": 30,
+        "f": 31,
+        "g": 32,
+        "h": 33,
+        "i": 34,
+        "j": 35,
+        "k": 36,
+        "l": 37,
+        "m": 38,
+        "n": 39,
+        "o": 40,
+        "p": 41,
+        "q": 42,
+        "r": 43,
+        "s": 44,
+        "t": 45,
+        "u": 46,
+        "v": 47,
+        "w": 48,
+        "x": 49,
+        "y": 50,
+        "z": 51,
+        "0": 52,
+        "1": 53,
+        "2": 54,
+        "3": 55,
+        "4": 56,
+        "5": 57,
+        "6": 58,
+        "7": 59,
+        "8": 60,
+        "9": 61,
+        "+": 62,
+        "/": 63
+    };
     annie.Shape = Shape;
 })(annie || (annie = {}));
 /**
@@ -1590,7 +1599,7 @@ var annie;
          * @since 1.0.0
          */
         function Media(src, type) {
-            _super.call(this);
+            var _this = _super.call(this) || this;
             /**
              * html 标签 有可能是audio 或者 video
              * @property media
@@ -1598,16 +1607,16 @@ var annie;
              * @public
              * @since 1.0.0
              */
-            this.media = null;
+            _this.media = null;
             /**
              * 媒体类型 VIDEO 或者 AUDIO
              * @type {string}
              * @since 1.0.0
              * @since 1.0.0
              */
-            this.type = "";
-            this._loop = 0;
-            var s = this;
+            _this.type = "";
+            _this._loop = 0;
+            var s = _this;
             if (typeof (src) == "string") {
                 s.media = document.createElement(type);
                 s.media.src = src;
@@ -1632,6 +1641,7 @@ var annie;
                 e.data = { currentTime: s.media.currentTime };
                 s.dispatchEvent(e);
             }, false);
+            return _this;
         }
         /**
          * 开始播放媒体
@@ -1709,7 +1719,7 @@ var annie;
     var Sound = (function (_super) {
         __extends(Sound, _super);
         function Sound(src) {
-            _super.call(this, src, "Audio");
+            return _super.call(this, src, "Audio") || this;
         }
         return Sound;
     }(annie.Media));
@@ -1732,8 +1742,8 @@ var annie;
         function Video(src, width, height) {
             if (width === void 0) { width = 0; }
             if (height === void 0) { height = 0; }
-            _super.call(this, src, "Video");
-            var s = this;
+            var _this = _super.call(this, src, "Video") || this;
+            var s = _this;
             s.media.setAttribute("playsinline", "true");
             s.media.setAttribute("webkit-playsinline", "true");
             s.media.setAttribute("x-webkit-airplay", "true");
@@ -1745,6 +1755,7 @@ var annie;
                 s.media.width = width;
                 s.media.height = height;
             }
+            return _this;
         }
         return Video;
     }(annie.Media));
@@ -1771,8 +1782,8 @@ var annie;
          * @param type text json js xml image sound css svg video unKnow
          */
         function URLLoader() {
-            _super.call(this);
-            this.headers = [];
+            var _this = _super.call(this) || this;
+            _this.headers = [];
             /**
              * 后台返回来的数据类弄
              * @property responseType
@@ -1781,7 +1792,7 @@ var annie;
              * @public
              * @since 1.0.0
              */
-            this.responseType = null;
+            _this.responseType = null;
             /**
              * 请求的url地址
              * @property url
@@ -1789,7 +1800,7 @@ var annie;
              * @since 1.0.0
              * @type {string}
              */
-            this.url = "";
+            _this.url = "";
             /**
              * 请求后台的类型 get post
              * @property method
@@ -1798,7 +1809,7 @@ var annie;
              * @public
              * @since 1.0.0
              */
-            this.method = "get";
+            _this.method = "get";
             /**
              * 需要像后台传送的数据对象
              * @property data
@@ -1807,7 +1818,7 @@ var annie;
              * @default null
              * @type {Object}
              */
-            this.data = null;
+            _this.data = null;
             /**
              * 格式化post请求参数
              * @method _fqs
@@ -1817,7 +1828,7 @@ var annie;
              * @private
              * @since 1.0.0
              */
-            this._fqs = function (data, query) {
+            _this._fqs = function (data, query) {
                 var params = [];
                 if (data) {
                     for (var n in data) {
@@ -1838,7 +1849,7 @@ var annie;
              * @return {any}
              * @private
              */
-            this._fus = function (src, data) {
+            _this._fus = function (src, data) {
                 var s = this;
                 if (data == null || data == "") {
                     return src;
@@ -1854,6 +1865,7 @@ var annie;
                     return src + "?" + s._fqs(data, query);
                 }
             };
+            return _this;
         }
         /**
          * 取消加载
@@ -2491,6 +2503,38 @@ var Flash2x;
         }
         if (extendInfo && extendInfo.length > 0) {
             console.log("Flash2Egret还不能很好的支持滤镜功能,如果需要推荐使用Flash2AnnieJS,http://annie2x.com");
+            /*let index = 0;
+            let filters:any = [];
+            while (extendInfo[index] != undefined) {
+                if (extendInfo[index] == 0) {
+                    filters.push(new ColorFilter([extendInfo[index + 1],0,0,0,
+                        0,extendInfo[index + 2],0,0,
+                        0,0,extendInfo[index + 3],0,
+                        0,0,0,extendInfo[index + 4],
+                        extendInfo[index + 5], extendInfo[index + 6], extendInfo[index + 7], extendInfo[index + 8]]));
+                    index += 9;
+                } else if (extendInfo[index] == 1) {
+                    filters.push(new BlurFilter((extendInfo[index + 1]+extendInfo[index + 2])*0.5));
+                    index += 4;
+                } else if (extendInfo[index] == 2) {
+                    let blur = (extendInfo[index + 1] + extendInfo[index + 2]) * 0.5;
+                    let color = Shape.getRGBA(extendInfo[index + 4], extendInfo[index + 5]);
+                    let offsetX = extendInfo[index + 7] * Math.cos(extendInfo[index + 6] / 180 * Math.PI);
+                    let offsetY = extendInfo[index + 7] * Math.sin(extendInfo[index + 6] / 180 * Math.PI);
+                    filters.push(new ShadowFilter(color, offsetX, offsetY, blur));
+                    index += 8;
+                } else if (extendInfo[index] == 3){
+                    let blur = (extendInfo[index + 1] + extendInfo[index + 2]) * 0.5;
+                    let color = Shape.getRGBA(extendInfo[index + 4], extendInfo[index + 5]);
+                    filters.push(new ShadowFilter(color, 0, 0, blur));
+                    index += 6;
+                } else if (extendInfo[index] == 4) {
+                    console.log("LayaAir还不支持高级颜色滤镜功能,如果需要推荐使用AnnieJS引擎,http://annie2x.com");
+                    //filters.push(new ColorMatrixFilter(extendInfo[index + 1], extendInfo[index + 2], extendInfo[index + 3], extendInfo[index + 4]));
+                    index += 5;
+                }
+            }
+            display.filters=filters;*/
         }
     }
     Flash2x.d = d;
@@ -2717,7 +2761,7 @@ var Flash2x;
 var trace = function () {
     var arg = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        arg[_i - 0] = arguments[_i];
+        arg[_i] = arguments[_i];
     }
     for (var i in arguments) {
         console.log(arguments[i]);
@@ -2732,3 +2776,4 @@ var globalDispatcher = new egret.EventDispatcher();
 var devicePixelRatio = window.devicePixelRatio || 1;
 var F2xContainer = egret.DisplayObjectContainer;
 var F2xMovieClip = annie.MovieClip;
+var F2xText = egret.TextField;

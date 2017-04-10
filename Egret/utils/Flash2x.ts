@@ -640,3 +640,4 @@ let globalDispatcher:egret.EventDispatcher=new egret.EventDispatcher();
 var devicePixelRatio=window.devicePixelRatio||1;
 import F2xContainer=egret.DisplayObjectContainer;
 import F2xMovieClip=annie.MovieClip;
+import F2xText=egret.TextField;
