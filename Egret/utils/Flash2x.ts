@@ -613,7 +613,20 @@ namespace Flash2x {
      * @property version
      * @type {string}
      */
-    export let version="1.0.0";
+    export let version="1.0.1";
+    /**
+     * 获取参数
+     * @method getQueryString
+     * @static
+     * @param name
+     * @returns {any}
+     * @since 1.0.1
+     */
+    export function getQueryString(name:string) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURIComponent(r[2]); return null;
+    }
 }
 /**
  * 往控制台打印调试信息

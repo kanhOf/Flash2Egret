@@ -2745,7 +2745,23 @@ var Flash2x;
      * @property version
      * @type {string}
      */
-    Flash2x.version = "1.0.0";
+    Flash2x.version = "1.0.1";
+    /**
+     * 获取参数
+     * @method getQueryString
+     * @static
+     * @param name
+     * @returns {any}
+     * @since 1.0.1
+     */
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return decodeURIComponent(r[2]);
+        return null;
+    }
+    Flash2x.getQueryString = getQueryString;
 })(Flash2x || (Flash2x = {}));
 /**
  * 往控制台打印调试信息

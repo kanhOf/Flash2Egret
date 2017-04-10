@@ -960,6 +960,15 @@ declare namespace Flash2x {
      * @type {string}
      */
     let version: string;
+    /**
+     * 获取参数
+     * @method getQueryString
+     * @static
+     * @param name
+     * @returns {any}
+     * @since 1.0.1
+     */
+    function getQueryString(name: string): string;
 }
 /**
  * 往控制台打印调试信息
